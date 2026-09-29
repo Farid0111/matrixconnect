@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="theme-color" content="#1d1140" />
+    <title>Activation du wifi gratuit 7 jours — Wifi Banikoara</title>
+    <link rel="icon" href="img/favicon.png" />
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            font-family: "Bricolage Grotesque", "Segoe UI", Arial, sans-serif;
+        }
+
+        .wp {
+            --orange: #e8731f;
+            --ink: #1d1140;
+            --cream: #fff6e6;
+            --sun: #ffd23f;
+            --muted: #5f5a78;
+            --green: #2fd14f;
+            position: relative;
+            isolation: isolate;
+            padding: 6px 3px 14px;
+            text-align: left;
+        }
+
+        .wp, .wp *, .wp *::before, .wp *::after { box-sizing: border-box; }
+
+        .floaters { position: absolute; z-index: 0; inset: 0; pointer-events: none; overflow: hidden; }
+
+        .floaters i {
+            position: absolute;
+            display: block;
+            clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+            background: linear-gradient(160deg, rgba(255, 255, 255, .3), rgba(255, 255, 255, .04));
+            animation: drift ease-in-out infinite alternate;
+        }
+
+        .floaters i:nth-child(1) { left: -36px; top: 6%; width: 130px; height: 150px; animation-duration: 13s; }
+        .floaters i:nth-child(2) { right: -30px; top: 20%; width: 90px; height: 104px; animation-duration: 10s; animation-delay: -3s; }
+        .floaters i:nth-child(3) { left: 6%; top: 62%; width: 60px; height: 69px; animation-duration: 12s; animation-delay: -5s; }
+        .floaters i:nth-child(4) { right: 4%; top: 78%; width: 140px; height: 162px; animation-duration: 16s; animation-delay: -2s; }
+
+        @keyframes drift { to { transform: translateY(-36px) rotate(18deg); } }
+
+        @property --wpa { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
+        .frame {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 3px;
+            border-radius: 32px;
+            background: conic-gradient(from var(--wpa), var(--sun), #fff, var(--orange), var(--ink), var(--sun));
+            box-shadow: 0 0 34px rgba(255, 210, 63, .45), 0 26px 55px rgba(60, 20, 0, .55);
+            animation: enter .8s cubic-bezier(.2, .9, .3, 1.2) both, spin 6s linear infinite;
+        }
+
+        @keyframes spin { to { --wpa: 360deg; } }
+
+        .ticket {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, #ffefd6, #ffe2bd);
+            border-radius: 28px;
+            color: var(--ink);
+        }
+
+        @keyframes enter { from { opacity: 0; transform: translateY(30px) scale(.95); } }
+
+        .marq {
+            overflow: hidden;
+            white-space: nowrap;
+            background: var(--sun);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .marq div {
+            display: inline-block;
+            padding: 7px 0;
+            animation: marq 16s linear infinite;
+        }
+
+        .marq span { padding: 0 14px; }
+
+        @keyframes marq { to { transform: translateX(-50%); } }
+
+        .head {
+            position: relative;
+            overflow: hidden;
+            padding: 20px 16px 22px;
+            text-align: center;
+            color: #fff;
+            border-bottom: 3px solid var(--sun);
+            background:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100' fill='none' stroke='white' stroke-opacity='.09' stroke-width='2'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='white' stroke-opacity='.09' stroke-width='2'/%3E%3C/svg%3E"),
+                radial-gradient(circle at 50% 0%, #4a37b0, var(--ink) 72%);
+        }
+
+        .head::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -70%;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(110deg, transparent, rgba(255, 255, 255, .18), transparent);
+            transform: skewX(-18deg);
+            animation: shine 5s ease-in-out infinite;
+        }
+
+        @keyframes shine { 0% { left: -70%; } 35%, 100% { left: 140%; } }
+
+        .ok {
+            position: relative;
+            display: grid;
+            place-items: center;
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 12px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ffe680, var(--sun));
+            box-shadow: 0 6px 18px rgba(255, 210, 63, .55);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float { 50% { transform: translateY(-5px); } }
+
+        .ok svg { width: 42px; height: 42px; }
+
+        .ok b {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid var(--sun);
+            opacity: 0;
+            animation: wave 2.6s ease-out infinite;
+        }
+
+        .ok b:nth-child(2) { animation-delay: .85s; }
+        .ok b:nth-child(3) { animation-delay: 1.7s; }
+
+        @keyframes wave {
+            0% { transform: scale(1); opacity: .8; }
+            100% { transform: scale(1.7); opacity: 0; }
+        }
+
+        .head h1 {
+            margin: 0 0 8px;
+            font-size: clamp(20px, 5.6vw, 25px);
+            line-height: 1.2;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, .3);
+        }
+
+        .head p { margin: 0; font-size: 14px; font-weight: 600; color: #d9d4f5; }
+
+        .badge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--ink);
+            background: linear-gradient(90deg, var(--sun), #ffe680, var(--sun));
+            background-size: 200% 100%;
+            border-radius: 999px;
+            animation: slide 3s linear infinite, glow 2.2s ease-in-out infinite;
+        }
+
+        @keyframes slide { to { background-position: -200% 0; } }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 210, 63, .6); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 210, 63, 0); }
+        }
+
+        .body { padding: 18px 16px 6px; }
+
+        .steps { padding: 14px 16px 0; }
+
+        .steps .lbl {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .6px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .steps .lbl b { color: var(--orange); }
+
+        .bar {
+            height: 10px;
+            background: #e2c9a0;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .bar i {
+            display: block;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--sun));
+            border-radius: 999px;
+            transition: width .35s ease;
+        }
+
+        .intro {
+            margin: 0 0 16px;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.5;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .intro.strong { color: var(--ink); }
+
+        .req { color: #d12020; }
+
+        .btn[disabled] {
+            color: #fff;
+            background: #a9a2bd;
+            box-shadow: 0 4px 0 #7d7691;
+            cursor: not-allowed;
+        }
+
+        .btn[disabled]:active { transform: none; box-shadow: 0 4px 0 #7d7691; }
+
+        .gate {
+            margin: 0;
+            padding: 12px 16px 0;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .gate b { color: var(--ink); }
+
+        .count {
+            display: none;
+            margin: 0 0 14px;
+            font-size: 13px;
+            font-weight: 800;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .count b { color: var(--orange); }
+
+        .count.show { display: block; }
+
+        .count button {
+            margin-left: 8px;
+            padding: 0;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--muted);
+            text-decoration: underline;
+            background: none;
+            border: 0;
+            cursor: pointer;
+        }
+
+        .mini {
+            display: block;
+            margin: 12px auto 0;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--muted);
+            text-decoration: underline;
+        }
+
+        .field { margin-bottom: 14px; }
+
+        .field label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: .3px;
+            text-transform: uppercase;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 14px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink);
+            background: #fff;
+            border: 2px solid #e2c9a0;
+            border-radius: 14px;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 4px rgba(232, 115, 31, .2);
+        }
+
+        .field input::placeholder { color: #a9a2bd; font-weight: 500; }
+
+        .err {
+            display: none;
+            margin: 6px 0 0;
+            font-size: 13px;
+            font-weight: 700;
+            color: #b00020;
+        }
+
+        .field.bad .err { display: block; }
+
+        .field.bad input,
+        .field.bad select { border-color: #e0393e; }
+
+        .hint { margin: 6px 0 0; font-size: 12px; font-weight: 600; color: var(--muted); }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 16px;
+            border: 0;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 800;
+            line-height: 1.2;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--green), #12a13a);
+            box-shadow: 0 4px 0 #0b6b25;
+            transition: transform .15s, box-shadow .15s;
+        }
+
+        .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #0b6b25; }
+        .btn:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+        .btn.ghost { color: #fff; background: linear-gradient(135deg, #3b2a8f, var(--ink)); box-shadow: 0 4px 0 #0b0620; }
+        .btn.ghost:active { box-shadow: 0 1px 0 #0b0620; }
+
+        .sep {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 18px 0;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--muted);
+        }
+
+        .sep::before, .sep::after { content: ""; flex: 1; height: 2px; background: #e2c9a0; }
+
+        .logo { padding: 12px 14px; text-align: center; background: var(--ink); border-top: 3px solid var(--sun); }
+        .logo img { display: block; max-width: 130px; height: auto; margin: 0 auto; }
+
+        .foot { position: relative; z-index: 1; margin: 12px 4px 0; font-size: 12px; font-weight: 600; text-align: center; color: #8b86ad; }
+
+        .hidden { display: none !important; }
+
+        .recap {
+            margin: 0 0 16px;
+            padding: 14px;
+            background: #fff;
+            border: 2px dashed #e2c9a0;
+            border-radius: 14px;
+        }
+
+        .recap div {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 6px 0;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .recap span { color: var(--muted); }
+        .recap b { text-align: right; overflow-wrap: anywhere; }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <div class="floaters" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div class="frame">
+            <main class="ticket">
+                <div class="marq" aria-hidden="true">
+                    <div><span>Wifi Banikoara</span><span>⚡</span><span>9 zones</span><span>⚡</span><span>1 ticket</span><span>⚡</span><span>Wifi Banikoara</span><span>⚡</span><span>9 zones</span><span>⚡</span><span>1 ticket</span><span>⚡</span></div>
+                </div>
+
+                <header class="head">
+                    <div class="ok" aria-hidden="true">
+                        <b></b><b></b><b></b>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#1d1140" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="10" width="16" height="10" rx="2" />
+                            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+                        </svg>
+                    </div>
+                    <h1>Terminez votre inscription</h1>
+                    <p>Il vous reste 3 champs à remplir pour obtenir votre ticket wifi gratuit de 7 jours.</p>
+                    <span class="badge">⚡ WIFI GRATUIT 7 JOURS</span>
+                </header>
+
+                <section class="steps">
+                    <div class="lbl"><span>Dernière étape</span><b id="score">0 / 3 champs</b></div>
+                    <div class="bar"><i id="barFill"></i></div>
+                </section>
+
+                <section class="body" id="formBox">
+                    <p class="intro strong">Votre ticket wifi gratuit 7 jours n'est pas validé. Sans le formulaire ci-dessous, <b>notre equipe coupe votre accès gratuit</b> et vous devrez recommencer. Vous avez 2 minutes&nbsp;: 20 secondes suffisent.</p>
+
+                    <form id="leadForm" novalidate>
+                        <div class="field" id="f-nom">
+                            <label for="nom">Nom &amp; Prénom <span class="req">*</span></label>
+                            <input type="text" id="nom" name="nom" placeholder="Ex: Aïcha Koudjo" autocomplete="name" maxlength="60" />
+                            <p class="err">Merci d'indiquer votre nom complet.</p>
+                        </div>
+
+                        <div class="field" id="f-tel">
+                            <label for="tel">Numéro de téléphone <span class="req">*</span></label>
+                            <input type="tel" id="tel" name="tel" placeholder="Ex: 01 64 90 99 72" inputmode="tel" autocomplete="tel" maxlength="20" />
+                            <p class="err">Numéro invalide (8 à 10 chiffres, ex : 0164909972).</p>
+                            <p class="hint">Nous vous contactons par appel ou WhatsApp.</p>
+                        </div>
+
+                        <div class="field" id="f-zone">
+                            <label for="zone">Zone <span class="req">*</span></label>
+                            <select id="zone" name="zone">
+                                <option value="">-- Choisissez votre zone --</option>
+                                <option>À Orou Yonrou</option>
+                                <option>La zone du maire</option>
+                                <option>La zone du petit marché</option>
+                                <option>La zone du grand marché</option>
+                                <option>La zone du commissariat</option>
+                                <option>La zone du stade</option>
+                                <option>À Amanki</option>
+                                <option>Derrière la maison des jeunes</option>
+                                <option>Au lycée technique agricole</option>
+                                <option>Autre zone</option>
+                            </select>
+                            <p class="err">Merci de choisir votre zone.</p>
+                        </div>
+
+                        <button class="btn" type="submit" id="sendBtn" disabled>Valider mes informations</button>
+                    </form>
+
+                    <p class="gate">Le bouton s'active dès que les <b>3 champs</b> sont remplis.</p>
+                </section>
+
+                <section class="body hidden" id="doneBox">
+                    <p class="count show" id="countBox">Redirection dans <b id="cd">5</b>s<button type="button" id="stopCd">Annuler</button></p>
+                    <p class="intro strong">C'est fait&nbsp;! Votre ticket wifi gratuit 7 jours est enregistré. Récapitulatif&nbsp;:</p>
+
+                    <div class="recap">
+                        <div><span>Nom</span><b id="r-nom"></b></div>
+                        <div><span>Téléphone</span><b id="r-tel"></b></div>
+                        <div><span>Zone</span><b id="r-zone"></b></div>
+                        <div><span>Appareil</span><b id="r-mac">—</b></div>
+                    </div>
+
+                    <a class="btn ghost" id="nextBtn" href="#">Continuer à naviguer</a>
+                    <a class="mini" id="editBtn" href="#">Modifier mes informations</a>
+                </section>
+
+                <div class="logo"><img src="img/matrix1.png" alt="Logo" /></div>
+            </main>
+        </div>
+
+        <p class="foot" id="foot"></p>
+    </div>
+    <script src="firebase-leads.js"></script>
+    <script>
+        (function () {
+            var HOTSPOT = "$(link-orig-esc)";
+            var USER = "$(username)";
+            var MAC = "$(mac)";
+            var IP = "$(ip)";
+
+            function clean(v) {
+                if (!v || v.indexOf("$(") === 0) return "";
+                return v;
+            }
+
+            HOTSPOT = clean(HOTSPOT);
+            USER = clean(USER);
+            MAC = clean(MAC);
+            IP = clean(IP);
+
+            // Adresse MAC de l'appareil, dans cet ordre :
+            //   1. parametrage par alogin.html (?mac=...), transmis depuis le routeur
+            //   2. $(mac) du routeur sur cette page
+            //   3. deduite de l'identifiant de connexion "T-<mac>"
+            function fromUrl(key) {
+                var m = (window.location.search || "").match(new RegExp("[?&]" + key + "=([^&]*)", "i"));
+                if (!m || !m[1]) return "";
+                var v = decodeURIComponent(m[1].replace(/\+/g, " "));
+                return v.indexOf("$(") === 0 ? "" : v;
+            }
+
+            var qUser = fromUrl("user");
+            if (qUser) USER = qUser;
+
+            var qMac = fromUrl("mac");
+            if (!MAC) MAC = qMac;
+            if (!IP) IP = fromUrl("ip");
+            if (!MAC && USER && USER.indexOf("T-") === 0) MAC = USER.slice(2);
+            MAC = MAC.replace(/\s+/g, "");
+
+            var form = document.getElementById("leadForm");
+            var formBox = document.getElementById("formBox");
+            var doneBox = document.getElementById("doneBox");
+            var nextBtn = document.getElementById("nextBtn");
+            var editBtn = document.getElementById("editBtn");
+            var stopCd = document.getElementById("stopCd");
+            var cdBox = document.getElementById("cd");
+            var countBox = document.getElementById("countBox");
+            var sendBtn = document.getElementById("sendBtn");
+            var score = document.getElementById("score");
+            var barFill = document.getElementById("barFill");
+            var foot = document.getElementById("foot");
+            var KEY = "wifi_banikoara_leads";
+            var timer = null;
+
+            nextBtn.href = (HOTSPOT && HOTSPOT.indexOf("merci") === -1) ? HOTSPOT : "./status";
+
+            foot.textContent = (MAC || USER)
+                ? "Connexion : " + (USER || "T-") + (MAC ? " — " + MAC : "")
+                : "Wifi Banikoara — 9 zones à Banikoara centre";
+
+            function digits(v) {
+                return (v || "").replace(/\D/g, "");
+            }
+
+            function telValid(v) {
+                var d = digits(v);
+                if (d.length > 10 && d.indexOf("229") === 0) d = d.slice(3);
+                return d.length >= 8 && d.length <= 10;
+            }
+
+            function read() {
+                return {
+                    nom: document.getElementById("nom").value.trim().replace(/\s+/g, " "),
+                    tel: document.getElementById("tel").value.trim(),
+                    zone: document.getElementById("zone").value
+                };
+            }
+
+            function progress() {
+                var l = read();
+                var n = 0;
+                if (l.nom.length >= 3) n++;
+                if (telValid(l.tel)) n++;
+                if (l.zone) n++;
+
+                score.textContent = n + " / 3 champs";
+                barFill.style.width = (n / 3 * 100) + "%";
+                sendBtn.disabled = n < 3;
+                return l;
+            }
+
+            function bad(id, on) {
+                document.getElementById(id).classList.toggle("bad", on);
+                return !on;
+            }
+
+            function all() {
+                try {
+                    return JSON.parse(localStorage.getItem(KEY) || "[]");
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function save(lead) {
+                try {
+                    var list = all();
+                    list.push(lead);
+                    localStorage.setItem(KEY, JSON.stringify(list));
+                } catch (e) { }
+            }
+
+            function lastLead() {
+                var list = all();
+                for (var i = list.length - 1; i >= 0; i--) {
+                    if (!MAC || list[i].mac === MAC) return list[i];
+                }
+                return null;
+            }
+
+            function send(lead) {
+                if (!window.LeadStore) return;
+                lead.ip = IP;
+                lead.page = "merci";
+                window.LeadStore.push(lead);
+            }
+
+            function show(lead) {
+                document.getElementById("r-nom").textContent = lead.nom;
+                document.getElementById("r-tel").textContent = lead.tel;
+                document.getElementById("r-zone").textContent = lead.zone;
+                document.getElementById("r-mac").textContent = lead.mac || "—";
+
+                formBox.classList.add("hidden");
+                doneBox.classList.remove("hidden");
+                window.scrollTo(0, 0);
+                startCountdown();
+            }
+
+            function startCountdown() {
+                if (timer) clearInterval(timer);
+                var left = 5;
+                cdBox.textContent = left;
+                countBox.classList.add("show");
+                timer = setInterval(function () {
+                    left--;
+                    if (left <= 0) {
+                        clearInterval(timer);
+                        timer = null;
+                        window.location.href = nextBtn.href;
+                        return;
+                    }
+                    cdBox.textContent = left;
+                }, 1000);
+            }
+
+            stopCd.addEventListener("click", function () {
+                if (timer) clearInterval(timer);
+                timer = null;
+                countBox.classList.remove("show");
+            });
+
+            editBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                if (timer) clearInterval(timer);
+                timer = null;
+                countBox.classList.remove("show");
+                doneBox.classList.add("hidden");
+                formBox.classList.remove("hidden");
+                progress();
+                document.getElementById("nom").focus();
+            });
+
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                var l = read();
+                var ok = bad("f-nom", l.nom.length < 3);
+                ok = bad("f-tel", !telValid(l.tel)) && ok;
+                ok = bad("f-zone", !l.zone) && ok;
+                if (!ok) {
+                    var first = formBox.querySelector(".field.bad input, .field.bad select");
+                    if (first) first.focus();
+                    return;
+                }
+
+                l.date = new Date().toISOString();
+                l.mac = MAC;
+                l.user = USER;
+                save(l);
+                send(l);
+                show(l);
+            });
+
+            ["nom", "tel", "zone"].forEach(function (id) {
+                var el = document.getElementById(id);
+                el.addEventListener("input", function () {
+                    document.getElementById("f-" + id).classList.remove("bad");
+                    progress();
+                });
+                el.addEventListener("change", function () {
+                    document.getElementById("f-" + id).classList.remove("bad");
+                    progress();
+                });
+            });
+
+            // Le formulaire est toujours affiche. Si le client est deja connu sur cet
+            // appareil, ses informations sont simplement pre-remplies (moins de saisie).
+            var known = lastLead();
+            if (known) {
+                document.getElementById("nom").value = known.nom || "";
+                document.getElementById("tel").value = known.tel || "";
+                document.getElementById("zone").value = known.zone || "";
+            }
+            progress();
+            document.getElementById("nom").focus();
+
+            // Fiches restées en local faute de connexion : réessayée à la prochaine visite
+            if (window.LeadStore) {
+                var pending = 0;
+                try { pending = JSON.parse(localStorage.getItem("wifi_banikoara_pending") || "[]").length; } catch (e) { }
+                if (pending) {
+                    window.LeadStore.flush().then(function (n) {
+                        if (n) localStorage.removeItem("wifi_banikoara_pending");
+                    });
+                }
+            }
+        })();
+    </script>
+</body>
+
+</html>
