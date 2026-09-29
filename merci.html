@@ -568,8 +568,19 @@
                         if (!window.closed) nextBtn.textContent = "Vous pouvez fermer cet onglet";
                     }, 300);
                 });
+            } else if (HOTSPOT) {
+                nextBtn.href = HOTSPOT;
             } else {
-                nextBtn.href = (HOTSPOT && HOTSPOT.indexOf("merci") === -1) ? HOTSPOT : "./status";
+                // ni portail ni onglet fils (apercu local) : rien ou aller
+                nextBtn.setAttribute("href", "#");
+                nextBtn.textContent = "Fermer cette page";
+                nextBtn.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    window.close();
+                    setTimeout(function () {
+                        if (!window.closed) nextBtn.textContent = "Vous pouvez fermer cet onglet";
+                    }, 300);
+                });
             }
 
             foot.textContent = (MAC || USER)
