@@ -40,14 +40,22 @@
             ? base + '?mac=' + encodeURIComponent(mac) + '&user=' + encodeURIComponent(u) + '&ip=' + encodeURIComponent(ip)
             : './success.html';
 
-        // repli visible si le javascript est bloque
+        // repli visible : le formulaire s'ouvre dans un nouvel onglet (_blank),
+        // l'onglet courant reste sur le portail
         var go = document.getElementById('go');
-        go.href = url;
-        go.innerHTML = essai ? "Ouvrir mon ticket wifi gratuit" : "Continuer";
         var etat = document.getElementById('etat');
-        if (etat) etat.style.display = 'none';
 
-        setTimeout(function () { window.location.href = url; }, 400);
+        if (essai) {
+            go.href = url;
+            go.target = '_blank';
+            go.innerHTML = "Ouvrir mon ticket wifi gratuit (nouvel onglet)";
+            if (etat) etat.innerHTML = 'Vous etes connecte.<br><br>Ouvrez votre ticket wifi gratuit dans le nouvel onglet pour activer votre acces de 7 jours.';
+        } else {
+            go.href = url;
+            go.innerHTML = "Continuer";
+            if (etat) etat.style.display = 'none';
+            setTimeout(function () { window.location.href = url; }, 400);
+        }
     }
 
 </script>

@@ -481,7 +481,7 @@
                 </section>
 
                 <section class="body hidden" id="doneBox">
-                    <p class="count show" id="countBox">Redirection dans <b id="cd">5</b>s<button type="button" id="stopCd">Annuler</button></p>
+                    <p class="count show" id="countBox">Fermeture dans <b id="cd">5</b>s<button type="button" id="stopCd">Annuler</button></p>
                     <p class="intro strong">C'est fait&nbsp;! Votre ticket wifi gratuit 7 jours est enregistré. Récapitulatif&nbsp;:</p>
 
                     <div class="recap">
@@ -554,7 +554,23 @@
             var KEY = "wifi_banikoara_leads";
             var timer = null;
 
-            nextBtn.href = (HOTSPOT && HOTSPOT.indexOf("merci") === -1) ? HOTSPOT : "./status";
+            // Le formulaire est ouvert en nouvel onglet (target="_blank") :
+            // le bouton "Continuer" ferme cet onglet, le client retrouve le portail.
+            var popup = !!window.opener && window.opener !== window;
+            nextBtn.setAttribute("role", "button");
+            if (popup) {
+                nextBtn.setAttribute("href", "#");
+                nextBtn.textContent = "Fermer et continuer a naviguer";
+                nextBtn.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    window.close();
+                    setTimeout(function () {
+                        if (!window.closed) nextBtn.textContent = "Vous pouvez fermer cet onglet";
+                    }, 300);
+                });
+            } else {
+                nextBtn.href = (HOTSPOT && HOTSPOT.indexOf("merci") === -1) ? HOTSPOT : "./status";
+            }
 
             foot.textContent = (MAC || USER)
                 ? "Connexion : " + (USER || "T-") + (MAC ? " — " + MAC : "")
@@ -649,7 +665,11 @@
                     if (left <= 0) {
                         clearInterval(timer);
                         timer = null;
-                        window.location.href = nextBtn.href;
+                        if (popup) {
+                            window.close();
+                        } else {
+                            window.location.href = nextBtn.href;
+                        }
                         return;
                     }
                     cdBox.textContent = left;
