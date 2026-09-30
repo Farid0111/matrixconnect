@@ -756,15 +756,28 @@
         <div class="notice">$(error)</div>
         $(endif)
 
-        <!-- Connexion wifi gratuit : on passe par le formulaire de login_original.html,
-             qui gere deja le CHAP et la soumission (c'est le meme chemin que le login
-             par ticket, donc le meme fonctionnement prouve). L'identifiant est
-             pre-rempli, le client clique simplement "Se connecter". -->
+        <!-- Connexion wifi gratuit : le bouton EST la connexion. Formulaire POST vers
+             $(link-login), sur le modele de la page MikroTik standard. Si le serveur
+             utilise CHAP, le mot de passe est hache avant l'envoi (formulaire sendin). -->
+        $(if chap-id)
+        <form name="sendin" action="$(link-login)" method="post">
+            <input type="hidden" name="username" />
+            <input type="hidden" name="password" />
+            <input type="hidden" name="dst" value="$(link-orig-esc)" />
+            <input type="hidden" name="popup" value="false" />
+        </form>
+        $(endif)
+
         $(if trial == 'yes')
-        <a class="btn btn-free" id="btnFree"
-           href="login_original.html?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)">
-          <i class="icon icon-login">&#xe803;</i> WIFI GRATUIT 7 JOURS
-        </a>
+        <form name="free" action="$(link-login)" method="post" $(if chap-id) onSubmit="return freeLogin()" $(endif)>
+            <input type="hidden" name="username" value="T-$(mac)" />
+            <input type="hidden" name="password" value="T-$(mac)" />
+            <input type="hidden" name="dst" value="$(link-orig-esc)" />
+            <input type="hidden" name="popup" value="false" />
+            <button class="btn btn-free" type="submit">
+                <i class="icon icon-login">&#xe803;</i> WIFI GRATUIT 7 JOURS
+            </button>
+        </form>
         $(endif)
 
         <a class="btn btn-pay" href="login_original.html" target="_blank">Payer mon ticket par mobile money</a>
@@ -785,11 +798,21 @@
 
 
 
+<script src="md5.js"></script>
 <script>
-// Le bouton wifi gratuit est un simple lien vers login_original.html avec
-// l'identifiant pre-rempli : la connexion passe par le meme formulaire que le
-// login par ticket, donc par un chemin deja fonctionne sur ce routeur.
-// L'utilisateur clique ensuite "Se connecter" (mot de passe rempli automatiquement).
+// Le bouton "WIFI GRATUIT 7 JOURS" est le bouton de connexion : un clic = un POST
+// vers le routeur avec l'identifiant T-<mac>. Si le serveur utilise CHAP, le mot de
+// passe est hache via md5.js puis envoye par le formulaire "sendin".
+function freeLogin() {
+    var f = document.forms.free;
+    var s = document.forms.sendin;
+    if (!f || !s) return true;
+
+    s.username.value = f.username.value;
+    s.password.value = hexMD5('$(chap-id)' + f.password.value + '$(chap-challenge)');
+    s.submit();
+    return false;
+}
 </script>
 
 <script>
