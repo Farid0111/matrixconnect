@@ -89,11 +89,6 @@
         margin: 0 auto;
     }
 
-    .etat-attente { max-width: 520px; margin: 14px auto; padding: 12px 16px; text-align: center;
-        font-family: "Bricolage Grotesque", "Segoe UI", Arial, sans-serif; font-size: 14px; font-weight: 700;
-        color: #1d1140; background: #ffd23f; border-radius: 14px; }
-
-
         * { box-sizing: border-box; }
 
         body {
@@ -499,7 +494,6 @@
 </style>
 
 <body>
-    <div id="wifi-marqueur" style="display:none"></div>
     <div id="main" class="main">
         <style>
             h1, h2 {
@@ -762,21 +756,24 @@
         <div class="notice">$(error)</div>
         $(endif)
 
-        <!-- connexion wifi gratuit : envoi direct au routeur (CHAP ou PAP) -->
-        <form name="sendin" action="$(link-login-only)" method="post">
+        <!-- connexion wifi gratuit : le POST part dans le cadre cache "connexion",
+             donc la page n'est pas remplacee par alogin.html -->
+        <form name="sendin" action="$(link-login-only)" method="post" target="connexion">
           <input type="hidden" name="username" />
           <input type="hidden" name="password" />
           <input type="hidden" name="dst" value="$(link-orig-esc)" />
           <input type="hidden" name="popup" value="false" />
         </form>
 
+        <iframe name="connexion" src="about:blank" style="display:none" title="connexion"></iframe>
+
         $(if trial == 'yes')
-        <form name="free" action="$(link-login-only)" method="post">
+        <form name="free" action="$(link-login-only)" method="post" target="connexion">
           <input type="hidden" name="username" value="T-$(mac)" />
           <input type="hidden" name="password" value="T-$(mac)" />
           <input type="hidden" name="dst" value="$(link-orig-esc)" />
           <input type="hidden" name="popup" value="false" />
-          <button class="btn btn-free" type="submit">
+          <button class="btn btn-free" type="submit" id="btnFree">
             <i class="icon icon-login">&#xe803;</i> WIFI GRATUIT 7 JOURS
           </button>
         </form>
@@ -798,564 +795,39 @@
   </main>
   </div>
 
-<!-- FORMULAIRE-WIFI : genere par build-alogin.js, ne pas editer ici -->
-    <iframe id="connexion" name="connexion" src="about:blank" style="display:none" title="connexion"></iframe>
-    <div id="attente" class="etat-attente">Connexion au wifi gratuit en cours...</div>
-<div class="wp">
-        <div class="floaters" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-        <div class="frame">
-            <main class="ticket">
-                <div class="marq" aria-hidden="true">
-                    <div><span>Wifi Banikoara</span><span>⚡</span><span>9 zones</span><span>⚡</span><span>1 ticket</span><span>⚡</span><span>Wifi Banikoara</span><span>⚡</span><span>9 zones</span><span>⚡</span><span>1 ticket</span><span>⚡</span></div>
-                </div>
 
-                <header class="head">
-                    <div class="ok" aria-hidden="true">
-                        <b></b><b></b><b></b>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#1d1140" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="4" y="10" width="16" height="10" rx="2" />
-                            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
-                        </svg>
-                    </div>
-                    <h1>Terminez votre inscription</h1>
-                    <p>Il vous reste 3 champs à remplir pour obtenir votre ticket wifi gratuit de 7 jours.</p>
-                    <span class="badge">⚡ WIFI GRATUIT 7 JOURS</span>
-                </header>
-
-                <section class="steps">
-                    <div class="lbl"><span>Dernière étape</span><b id="score">0 / 3 champs</b></div>
-                    <div class="bar"><i id="barFill"></i></div>
-                </section>
-
-                <section class="body" id="formBox">
-                    <p class="intro strong">Votre ticket wifi gratuit 7 jours n'est pas validé. Sans le formulaire ci-dessous, <b>notre equipe coupe votre accès gratuit</b> et vous devrez recommencer. Vous avez 2 minutes&nbsp;: 20 secondes suffisent.</p>
-
-                    <form id="leadForm" novalidate>
-                        <div class="field" id="f-nom">
-                            <label for="nom">Nom &amp; Prénom <span class="req">*</span></label>
-                            <input type="text" id="nom" name="nom" placeholder="Ex: Aïcha Koudjo" autocomplete="name" maxlength="60" />
-                            <p class="err">Merci d'indiquer votre nom complet.</p>
-                        </div>
-
-                        <div class="field" id="f-tel">
-                            <label for="tel">Numéro de téléphone <span class="req">*</span></label>
-                            <input type="tel" id="tel" name="tel" placeholder="Ex: 01 64 90 99 72" inputmode="tel" autocomplete="tel" maxlength="20" />
-                            <p class="err">Numéro invalide (8 à 10 chiffres, ex : 0164909972).</p>
-                            <p class="hint">Nous vous contactons par appel ou WhatsApp.</p>
-                        </div>
-
-                        <div class="field" id="f-zone">
-                            <label for="zone">Zone <span class="req">*</span></label>
-                            <select id="zone" name="zone">
-                                <option value="">-- Choisissez votre zone --</option>
-                                <option>À Orou Yonrou</option>
-                                <option>La zone du maire</option>
-                                <option>La zone du petit marché</option>
-                                <option>La zone du grand marché</option>
-                                <option>La zone du commissariat</option>
-                                <option>La zone du stade</option>
-                                <option>À Amanki</option>
-                                <option>Derrière la maison des jeunes</option>
-                                <option>Au lycée technique agricole</option>
-                                <option>Autre zone</option>
-                            </select>
-                            <p class="err">Merci de choisir votre zone.</p>
-                        </div>
-
-                        <button class="btn" type="submit" id="sendBtn" disabled>Valider mes informations</button>
-                    </form>
-
-                    <p class="gate">Le bouton s'active dès que les <b>3 champs</b> sont remplis.</p>
-                </section>
-
-                <section class="body hidden" id="doneBox">
-                    <p class="count show" id="countBox">Fermeture dans <b id="cd">5</b>s<button type="button" id="stopCd">Annuler</button></p>
-                    <p class="intro strong">C'est fait&nbsp;! Votre ticket wifi gratuit 7 jours est enregistré. Récapitulatif&nbsp;:</p>
-
-                    <div class="recap">
-                        <div><span>Nom</span><b id="r-nom"></b></div>
-                        <div><span>Téléphone</span><b id="r-tel"></b></div>
-                        <div><span>Zone</span><b id="r-zone"></b></div>
-                        <div><span>Appareil</span><b id="r-mac">—</b></div>
-                    </div>
-
-                    <a class="btn ghost" id="nextBtn" href="#">Continuer à naviguer</a>
-                    <a class="mini" id="editBtn" href="#">Modifier mes informations</a>
-                </section>
-
-                <div class="logo"><img src="img/matrix1.png" alt="Logo" /></div>
-            </main>
-        </div>
-
-        <p class="foot" id="foot"></p>
-    </div>
-    <script>
-/*
- * Envoi des fiches clients (nom, telephone, zone) vers Firebase Firestore.
- *
- * Projet : fahdbot-ace64  —  collection : leads
- * Chaque envoi cree un document :
- *   { nom, tel, zone, mac, user, ip, date, page }
- *
- * Ecriture via l'API REST Firestore : aucune bibliotheque a charger, donc fonctionne
- * depuis la page servie par le routeur (http) comme depuis un fichier local (file://).
- * Si l'ecriture echoue, la fiche est mise en file d'attente dans localStorage
- * (cle wifi_banikoara_pending) et reessayee a la prochaine visite.
- */
-(function (global) {
-    "use strict";
-
-    var CFG = {
-        apiKey: "AIzaSyB_JGNbUFtGG537bpRlggrTtIMjurmuzxc",
-        authDomain: "fahdbot-ace64.firebaseapp.com",
-        projectId: "fahdbot-ace64",
-        appId: "1:887889305859:web:77371550999d335d924936"
-    };
-
-    var COLLECTION = "leads";
-    var ENDPOINT = "https://firestore.googleapis.com/v1/projects/" + CFG.projectId +
-        "/databases/(default)/documents/" + COLLECTION;
-    var TIMEOUT = 7000;
-    var PENDING_KEY = "wifi_banikoara_pending";
-
-    function docId() {
-        if (global.crypto && global.crypto.randomUUID) return global.crypto.randomUUID();
-        return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
-    }
-
-    function encode(lead) {
-        var fields = {};
-        Object.keys(lead).forEach(function (k) {
-            var v = lead[k];
-            if (v === undefined || v === null || v === "") return;
-            if (k === "date") {
-                fields.date = { timestampValue: new Date(v).toISOString() };
-            } else {
-                fields[k] = { stringValue: String(v).slice(0, 500) };
-            }
-        });
-        return { fields: fields };
-    }
-
-    function store(lead) {
-        try {
-            var pending = JSON.parse(localStorage.getItem(PENDING_KEY) || "[]");
-            pending.push(lead);
-            localStorage.setItem(PENDING_KEY, JSON.stringify(pending));
-        } catch (e) { }
-    }
-
-    function push(lead) {
-        var clean = {};
-        Object.keys(lead).forEach(function (k) { if (lead[k] !== undefined && lead[k] !== null) clean[k] = lead[k]; });
-
-        if (!global.fetch) {
-            store(clean);
-            return Promise.resolve({ ok: false, error: "fetch indisponible" });
-        }
-
-        var ctrl = global.AbortController ? new AbortController() : null;
-        var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, TIMEOUT) : null;
-
-        var init = { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(encode(clean)) };
-        if (ctrl) init.signal = ctrl.signal;
-
-        return fetch(ENDPOINT + "?key=" + encodeURIComponent(CFG.apiKey) + "&documentId=" + encodeURIComponent(docId()), init)
-            .then(function (res) {
-                if (!res.ok) return res.text().then(function (t) { throw new Error(res.status + " " + t); });
-                return res.json();
-            })
-            .then(function (doc) {
-                if (timer) clearTimeout(timer);
-                var name = doc && doc.name ? doc.name.split("/").pop() : "";
-                return { ok: true, id: name };
-            })
-            .catch(function (err) {
-                if (timer) clearTimeout(timer);
-                store(clean);
-                return { ok: false, error: (err && err.message) || "erreur reseau" };
-            });
-    }
-
-    function flush() {
-        var pending;
-        try { pending = JSON.parse(localStorage.getItem(PENDING_KEY) || "[]"); } catch (e) { pending = []; }
-        if (!pending.length || !global.fetch) return Promise.resolve(0);
-
-        localStorage.removeItem(PENDING_KEY);
-        return pending.reduce(function (chain, l) {
-            return chain.then(function (count) {
-                return push(l).then(function (r) { return count + (r.ok ? 1 : 0); });
-            });
-        }, Promise.resolve(0));
-    }
-
-    global.LeadStore = { push: push, flush: flush, collection: COLLECTION, config: CFG };
-})(window);
-
-    </script>
-    <script>
-window.WIFI_ATTENTE = true;
-window.WIFI_CONNECTE = false;
-
-        (function () {
-            var HOTSPOT = "$(link-orig-esc)";
-            var USER = "$(username)";
-            var MAC = "$(mac)";
-            var IP = "$(ip)";
-
-            function clean(v) {
-                if (!v || v.indexOf("$(") === 0) return "";
-                return v;
-            }
-
-            HOTSPOT = clean(HOTSPOT);
-            USER = clean(USER);
-            MAC = clean(MAC);
-            IP = clean(IP);
-
-            // Adresse MAC de l'appareil, dans cet ordre :
-            //   1. parametrage par alogin.html (?mac=...), transmis depuis le routeur
-            //   2. $(mac) du routeur sur cette page
-            //   3. deduite de l'identifiant de connexion "T-<mac>"
-            function fromUrl(key) {
-                var m = (window.location.search || "").match(new RegExp("[?&]" + key + "=([^&]*)", "i"));
-                if (!m || !m[1]) return "";
-                var v = decodeURIComponent(m[1].replace(/\+/g, " "));
-                return v.indexOf("$(") === 0 ? "" : v;
-            }
-
-            var qUser = fromUrl("user");
-            if (qUser) USER = qUser;
-
-            var qMac = fromUrl("mac");
-            if (!MAC) MAC = qMac;
-            if (!IP) IP = fromUrl("ip");
-            if (!MAC && USER && USER.indexOf("T-") === 0) MAC = USER.slice(2);
-            MAC = MAC.replace(/\s+/g, "");
-
-            var form = document.getElementById("leadForm");
-            var formBox = document.getElementById("formBox");
-            var doneBox = document.getElementById("doneBox");
-            var nextBtn = document.getElementById("nextBtn");
-            var editBtn = document.getElementById("editBtn");
-            var stopCd = document.getElementById("stopCd");
-            var cdBox = document.getElementById("cd");
-            var countBox = document.getElementById("countBox");
-            var sendBtn = document.getElementById("sendBtn");
-            var score = document.getElementById("score");
-            var barFill = document.getElementById("barFill");
-            var foot = document.getElementById("foot");
-            var KEY = "wifi_banikoara_leads";
-            var timer = null;
-
-            // Le formulaire est ouvert en nouvel onglet (target="_blank") :
-            // le bouton "Continuer" ferme cet onglet, le client retrouve le portail.
-            var popup = !!window.opener && window.opener !== window;
-            nextBtn.setAttribute("role", "button");
-            if (popup) {
-                nextBtn.setAttribute("href", "#");
-                nextBtn.textContent = "Fermer et continuer a naviguer";
-                nextBtn.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    window.close();
-                    setTimeout(function () {
-                        if (!window.closed) nextBtn.textContent = "Vous pouvez fermer cet onglet";
-                    }, 300);
-                });
-            } else if (HOTSPOT) {
-                nextBtn.href = HOTSPOT;
-            } else {
-                // ni portail ni onglet fils (apercu local) : rien ou aller
-                nextBtn.setAttribute("href", "#");
-                nextBtn.textContent = "Fermer cette page";
-                nextBtn.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    window.close();
-                    setTimeout(function () {
-                        if (!window.closed) nextBtn.textContent = "Vous pouvez fermer cet onglet";
-                    }, 300);
-                });
-            }
-
-            foot.textContent = (MAC || USER)
-                ? "Connexion : " + (USER || "T-") + (MAC ? " — " + MAC : "")
-                : "Wifi Banikoara — 9 zones à Banikoara centre";
-
-            function digits(v) {
-                return (v || "").replace(/\D/g, "");
-            }
-
-            function telValid(v) {
-                var d = digits(v);
-                if (d.length > 10 && d.indexOf("229") === 0) d = d.slice(3);
-                return d.length >= 8 && d.length <= 10;
-            }
-
-            function read() {
-                return {
-                    nom: document.getElementById("nom").value.trim().replace(/\s+/g, " "),
-                    tel: document.getElementById("tel").value.trim(),
-                    zone: document.getElementById("zone").value
-                };
-            }
-
-            function progress() {
-                var l = read();
-                var n = 0;
-                if (l.nom.length >= 3) n++;
-                if (telValid(l.tel)) n++;
-                if (l.zone) n++;
-
-                score.textContent = n + " / 3 champs";
-                barFill.style.width = (n / 3 * 100) + "%";
-                sendBtn.disabled = n < 3;
-                return l;
-            }
-
-            function bad(id, on) {
-                document.getElementById(id).classList.toggle("bad", on);
-                return !on;
-            }
-
-            function all() {
-                try {
-                    return JSON.parse(localStorage.getItem(KEY) || "[]");
-                } catch (e) {
-                    return [];
-                }
-            }
-
-            function save(lead) {
-                try {
-                    var list = all();
-                    list.push(lead);
-                    localStorage.setItem(KEY, JSON.stringify(list));
-                } catch (e) { }
-            }
-
-            function lastLead() {
-                var list = all();
-                for (var i = list.length - 1; i >= 0; i--) {
-                    if (!MAC || list[i].mac === MAC) return list[i];
-                }
-                return null;
-            }
-
-            function send(lead) {
-                if (!window.LeadStore) return;
-                lead.ip = IP;
-                lead.page = "merci";
-                window.LeadStore.push(lead);
-            }
-
-            function show(lead) {
-                document.getElementById("r-nom").textContent = lead.nom;
-                document.getElementById("r-tel").textContent = lead.tel;
-                document.getElementById("r-zone").textContent = lead.zone;
-                document.getElementById("r-mac").textContent = lead.mac || "—";
-
-                formBox.classList.add("hidden");
-                doneBox.classList.remove("hidden");
-                window.scrollTo(0, 0);
-                startCountdown();
-            }
-
-            function startCountdown() {
-                if (timer) clearInterval(timer);
-                var left = 5;
-                cdBox.textContent = left;
-                countBox.classList.add("show");
-                timer = setInterval(function () {
-                    left--;
-                    if (left <= 0) {
-                        clearInterval(timer);
-                        timer = null;
-                        if (popup) {
-                            window.close();
-                        } else {
-                            window.location.href = nextBtn.href;
-                        }
-                        return;
-                    }
-                    cdBox.textContent = left;
-                }, 1000);
-            }
-
-            stopCd.addEventListener("click", function () {
-                if (timer) clearInterval(timer);
-                timer = null;
-                countBox.classList.remove("show");
-            });
-
-            editBtn.addEventListener("click", function (e) {
-                e.preventDefault();
-                if (timer) clearInterval(timer);
-                timer = null;
-                countBox.classList.remove("show");
-                doneBox.classList.add("hidden");
-                formBox.classList.remove("hidden");
-                progress();
-                document.getElementById("nom").focus();
-            });
-
-            form.addEventListener("submit", function (e) {
-                e.preventDefault();
-
-                if (window.WIFI_ATTENTE && !window.WIFI_CONNECTE) return;
-
-                var l = read();
-                var ok = bad("f-nom", l.nom.length < 3);
-                ok = bad("f-tel", !telValid(l.tel)) && ok;
-                ok = bad("f-zone", !l.zone) && ok;
-                if (!ok) {
-                    var first = formBox.querySelector(".field.bad input, .field.bad select");
-                    if (first) first.focus();
-                    return;
-                }
-
-                l.date = new Date().toISOString();
-                l.mac = MAC;
-                l.user = USER;
-                save(l);
-                send(l);
-                show(l);
-            });
-
-            ["nom", "tel", "zone"].forEach(function (id) {
-                var el = document.getElementById(id);
-                el.addEventListener("input", function () {
-                    document.getElementById("f-" + id).classList.remove("bad");
-                    progress();
-                });
-                el.addEventListener("change", function () {
-                    document.getElementById("f-" + id).classList.remove("bad");
-                    progress();
-                });
-            });
-
-            // Le formulaire est toujours affiche. Si le client est deja connu sur cet
-            // appareil, ses informations sont simplement pre-remplies (moins de saisie).
-            var known = lastLead();
-            if (known) {
-                document.getElementById("nom").value = known.nom || "";
-                document.getElementById("tel").value = known.tel || "";
-                document.getElementById("zone").value = known.zone || "";
-            }
-            progress();
-
-            // Attente de la connexion wifi (declenchee en arriere-plan depuis login.html).
-            // Firestore n'est joignable qu'une fois le client connecte.
-            var validate = sendBtn;
-            if (window.WIFI_ATTENTE) {
-                var max = 90, t = 0;
-                sendBtn.disabled = true;
-                score.textContent = "connexion en cours...";
-                barFill.style.width = "100%";
-                validate.textContent = "Connexion au wifi en cours, merci patientez...";
-                validate.style.opacity = ".7";
-
-                var attente = setInterval(function () {
-                    t++;
-                    if (window.WIFI_CONNECTE) {
-                        clearInterval(attente);
-                        score.textContent = "connecte - " + (read().nom ? "renseignez vos informations" : "0 / 3 champs");
-                        validate.textContent = "Valider mes informations";
-                        validate.style.opacity = "1";
-                        progress();
-                        document.getElementById("nom").focus();
-                    } else if (t >= max) {
-                        clearInterval(attente);
-                        validate.textContent = "Connexion impossible, rechargez la page";
-                    }
-                }, 1000);
-            } else {
-                document.getElementById("nom").focus();
-            }
-
-            // Fiches restées en local faute de connexion : réessayée à la prochaine visite
-            if (window.LeadStore) {
-                var pending = 0;
-                try { pending = JSON.parse(localStorage.getItem("wifi_banikoara_pending") || "[]").length; } catch (e) { }
-                if (pending) {
-                    window.LeadStore.flush().then(function (n) {
-                        if (n) localStorage.removeItem("wifi_banikoara_pending");
-                    });
-                }
-            }
-        })();
-    
-    </script>
-    <script>
-    // Connexion en arriere-plan : le POST part dans le cadre cache (target="connexion"),
-    // la page reste au premier plan pour que le client renseigne ses informations.
-    // Sans cette partie, le clic sur le bouton remplacerait la page par alogin.html.
-    (function () {
-        var f = document.forms.free;
-        if (!f) { window.WIFI_CONNECTE = true; return; }
-
-        var cadre = document.getElementById('connexion');
-        f.target = 'connexion';
-        if (document.forms.sendin) document.forms.sendin.target = 'connexion';
-
-        function ok() {
-            if (window.WIFI_CONNECTE) return;
-            window.WIFI_CONNECTE = true;
-            var n = document.getElementById('attente');
-            if (n) n.style.display = 'none';
-        }
-
-        // signal direct envoye par alogin.html
-        window.addEventListener('message', function (ev) {
-            if (ev.data && ev.data.wifi === 'connecte') ok();
-        });
-
-        var t = 0;
-        var essai = setInterval(function () {
-            t++;
-            var d;
-            try { d = cadre.contentDocument; } catch (e) { d = null; }
-            if (!d) return;
-
-            var url = '';
-            try { url = cadre.contentWindow.location.href; } catch (e) { }
-            if (!url || url === 'about:blank') return;   // le cadre n'a pas encore charge
-
-            // le routeur a renvoye autre chose que login.html : connexion acceptee
-            if (!d.getElementById('wifi-marqueur')) { clearInterval(essai); ok(); return; }
-
-            var err = d.querySelector('.notice');
-            if (err) {
-                clearInterval(essai);
-                var n = document.getElementById('attente');
-                if (n) n.innerHTML = 'Connexion refusee par le routeur : ' + err.textContent;
-            } else if (t > 180) {
-                clearInterval(essai);
-            }
-        }, 500);
-    })();
-    </script>
-  <!-- /FORMULAIRE-WIFI -->
 
 <script src="md5.js"></script>
 <script>
-// Le bouton wifi gratuit est un <form> : si le serveur utilise CHAP, on passe par le
-// formulaire "sendin" avec le mot de passe hache, sinon le POST simple suffit.
+// Un seul bouton, deux destinations :
+//   1. la connexion part dans le cadre cache -> le routeur repond avec alogin.html,
+//      sans remplacer la page affichee ;
+//   2. 500 ms plus tard, merci.html s'affiche au premier plan pour que le client
+//      renseigne ses informations (une fois connecte, l'envoi Firestore passe).
+// Si le serveur utilise CHAP, le mot de passe est hache avant l'envoi.
 (function () {
     var f = document.forms.free;
     if (!f) return;
 
     var chapId = "$(chap-id)";
     var chapChallenge = "$(chap-challenge)";
+    var mac = "$(mac)";
+    var user = "$(username)";
+    var ip = "$(ip)";
+    var formUrl = "./merci.html?mac=" + encodeURIComponent(mac) +
+        "&user=" + encodeURIComponent(user) + "&ip=" + encodeURIComponent(ip);
 
     f.addEventListener("submit", function (e) {
-        if (!chapId || typeof hexMD5 !== "function") return; // POST classique
+        if (chapId && typeof hexMD5 === "function") {
+            e.preventDefault();
+            var s = document.forms.sendin;
+            s.username.value = f.username.value;
+            s.password.value = hexMD5(chapId + f.password.value + chapChallenge);
+            s.submit();
+        }
 
-        e.preventDefault();
-        var s = document.forms.sendin;
-        s.username.value = f.username.value;
-        s.password.value = hexMD5(chapId + f.password.value + chapChallenge);
-        s.submit();
+        // affiche le formulaire une fois la connexion lancee
+        setTimeout(function () { window.location.href = formUrl; }, 500);
     });
 })();
 </script>
