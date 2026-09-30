@@ -9,7 +9,6 @@
 
 <style>
 body { margin: 0; background-color: #000; }
-#formulaire { display: none; }
 
         * { box-sizing: border-box; }
 
@@ -414,37 +413,35 @@ body { margin: 0; background-color: #000; }
         }
     
 </style>
+</head>
+
+<body>
+<div id="connexion-etablie" style="display:none; padding:16px; text-align:center; color:#fff;
+     font-family:'Segoe UI',Arial,sans-serif; background:#000;">
+    <p>Vous etes connecte.</p>
+    <p><a style="color:#ffd23f" href="./status">Continuer a naviguer</a></p>
+</div>
 
 <script language="JavaScript">
-    // Page servie par le routeur juste apres un POST de connexion reussi.
-    // Connexion wifi gratuit = identifiant "T-<mac>" : on affiche le formulaire.
-    // Sinon (connexion par ticket ou mobile money) on renvoie vers success.html.
-    function apresConnexion() {
+    // Page servie par le routeur apres un POST de connexion reussie.
+    // Le formulaire est visible par defaut (il est dans le HTML) : si ce script
+    // echoue, le client voit quand meme le formulaire au lieu d'une page blanche.
+    (function () {
         $(if popup == 'true')
         open('$(link-status)', 'hotspot_status', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=290,height=200');
         $(endif)
 
         var u = "$(username)";
-        var essai = (u && u.indexOf("T-") === 0);
+        if (u && u.indexOf("T-") === 0) return;   // connexion wifi gratuit : on garde le formulaire
 
-        if (essai) {
-            var f = document.getElementById('formulaire');
-            if (f) f.style.display = 'block';
-        } else {
-            window.location.href = './success.html';
-        }
-    }
+        // ticket ou mobile money : on renvoie vers la page de confirmation
+        var f = document.getElementById("formulaire");
+        if (f) f.parentNode.removeChild(f);
+        var c = document.getElementById("connexion-etablie");
+        if (c) c.style.display = "block";
+        setTimeout(function () { window.location.href = "./success.html"; }, 800);
+    })();
 </script>
-</head>
-
-<body onLoad="apresConnexion()">
-
-<noscript>
-    <div style="padding:16px;text-align:center;color:#fff;">
-        <p>Vous etes connecte.</p>
-        <p><a style="color:#ff0084" href="./status">Continuer</a></p>
-    </div>
-</noscript>
 
 <div id="formulaire">
 <div class="wp">
