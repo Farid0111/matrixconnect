@@ -1,73 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title id="title"></title>
-<meta http-equiv="refresh" content="15; url=$(link-redirect)">
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta name="theme-color" content="#000000" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0;"/>
-<link rel="stylesheet" href="style.css">
+<title>Connexion wifi</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+body { margin: 0; padding: 20px; text-align: center; color: #fff;
+       font-family: "Segoe UI", Arial, sans-serif; background: #000; }
+a { color: #ffd23f; }
+</style>
 <script language="JavaScript">
-
-    // Page affichee par le routeur juste apres une connexion reussie.
-    // Connexion wifi gratuit = identifiant "T-<mac>" : on ouvre le formulaire.
-    //
-    // FORMULAIRE_URL : adresse publique ou merci.html est heberge (GitHub Pages,
-    // votre site, un hebergeur classique). Le client etant deja connecte, il y accede
-    // directement. Laissez vide pour retomber sur la page servie par le routeur.
-    var FORMULAIRE_URL = "https://farid0111.github.io/matrixconnect/merci.html";
-
-    function startClock() {
+    // Page servie par le routeur apres un POST de connexion reussi.
+    // Elle ne sert qu'a confirmer : le formulaire est deja affiche dans login.html.
+    function confirmer() {
         $(if popup == 'true')
         open('$(link-status)', 'hotspot_status', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=290,height=200');
         $(endif)
-
-        var u = "$(username)";
-        var mac = "$(mac)";
-        var ip = "$(ip)";
-
-        // si la variable n'existe pas sur cette version de RouterOS, elle reste litterale
-        if (!mac || mac.indexOf("$(") === 0) mac = "";
-        if (!ip || ip.indexOf("$(") === 0) ip = "";
-        if (!mac && u && u.indexOf("T-") === 0) mac = u.substring(2);
-
-        var essai = (u && u.indexOf("T-") === 0);
-        var base = (FORMULAIRE_URL && FORMULAIRE_URL.indexOf("farid0111.github.io") === -1)
-            ? FORMULAIRE_URL
-            : './merci.html';
-
-        var url = essai
-            ? base + '?mac=' + encodeURIComponent(mac) + '&user=' + encodeURIComponent(u) + '&ip=' + encodeURIComponent(ip)
-            : './success.html';
-
-        // repli visible : le formulaire s'ouvre dans un nouvel onglet (_blank),
-        // l'onglet courant reste sur le portail
-        var go = document.getElementById('go');
-        var etat = document.getElementById('etat');
-
-        if (essai) {
-            go.href = url;
-            go.target = '_blank';
-            go.innerHTML = "Ouvrir mon ticket wifi gratuit (nouvel onglet)";
-            if (etat) etat.innerHTML = 'Vous etes connecte.<br><br>Ouvrez votre ticket wifi gratuit dans le nouvel onglet pour activer votre acces de 7 jours.';
-        } else {
-            go.href = url;
-            go.innerHTML = "Continuer";
-            if (etat) etat.style.display = 'none';
-            setTimeout(function () { window.location.href = url; }, 400);
-        }
+        try {
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage({ wifi: 'connecte', user: "$(username)", mac: "$(mac)" }, '*');
+            }
+        } catch (e) { }
+        document.getElementById('msg').innerHTML =
+            'Connexion etablie.<br><br><a href="$(link-redirect)">Continuer a naviguer</a>';
     }
-
 </script>
 </head>
-<body onLoad="startClock()">
-<div style="padding:16px;text-align:center;">
-    <p id="etat">Vous etes connecte<br><br>
-    <a style="color:rgb(255, 0, 132)" href="./login">cliquez ici</a> si la page ne s'affiche pas.</p>
-    <p><a id="go" style="color:rgb(255, 0, 132)" href="./status">Continuer</a></p>
-</div>
-<script type="text/javascript">
-    document.getElementById('title').innerHTML = window.location.hostname + " > redirect";
-</script>
+<body onLoad="confirmer()">
+<p id="msg">Connexion etablie.</p>
 </body>
 </html>
