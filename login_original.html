@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title id="title"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/favicon.png" />
+</head>
+
+
+
+<style>
+
+	.show-on-small{
+	  display: none;
+	}
+
+	@media (max-width:767px)  {
+	  .show-on-small{
+	  display: block;
+	  position: relative;
+	  width: 100%;
+	  max-width: 600px;
+	  height: auto;
+	  margin: auto;
+	  overflow: hidden;
+	  border-radius: 10px;
+	}
+		
+	}
+
+</style>
+
+<style>
+	.slider-container {
+	  position: relative;
+	  width: 100%;
+	  max-width: 600px;
+	  height: auto;
+	  margin: auto;
+	  overflow: hidden;
+	  border-radius: 10px;
+	}
+  
+	.slides {
+	  display: flex;
+	  transition: transform 0.5s ease-in-out;
+	  width: 100%;
+	}
+  
+	.slides img {
+	  width: 100%;
+	  height: auto;
+	  flex-shrink: 0;
+	  border-radius: 10px;
+	}
+  
+	.slider-buttons {
+	  position: absolute;
+	  top: 50%;
+	  width: 100%;
+	  display: flex;
+	  justify-content: space-between;
+	  transform: translateY(-50%);
+	  pointer-events: none;
+	}
+  
+	.slider-buttons button {
+	  background-color: rgba(0, 0, 0, 0.4);
+	  border: none;
+	  color: white;
+	  font-size: 24px;
+	  padding: 10px;
+	  cursor: pointer;
+	  pointer-events: all;
+	  border-radius: 50%;
+	}
+
+	/* bandeau de guidage du bouton wifi gratuit */
+	.guide {
+	  display: none;
+	  max-width: 420px;
+	  margin: 14px auto;
+	  padding: 14px 16px;
+	  text-align: center;
+	  color: #fff;
+	  background: linear-gradient(135deg, #14163a, #2a2f7a);
+	  border: 2px solid #ffe600;
+	  border-radius: 14px;
+	  box-shadow: 0 4px 12px rgba(20, 22, 58, .5);
+	}
+
+	.guide.on { display: block; animation: guidePop .5s cubic-bezier(.2, .9, .3, 1.3) both; }
+
+	.guide strong {
+	  display: block;
+	  margin-bottom: 6px;
+	  font-size: 16px;
+	  font-weight: 800;
+	  letter-spacing: 1px;
+	  color: #ffe600;
+	}
+
+	.guide span { font-size: 14px; font-weight: 600; line-height: 1.4; }
+	.guide b { color: #ffe600; }
+
+	@keyframes guidePop {
+	  from { opacity: 0; transform: translateY(12px) scale(.96); }
+	}
+
+	/* bouton de connexion : mis en evidence tant que le client n'a pas clique */
+	#btnConnexion.urgent { animation: btnPulse 1.1s ease-in-out infinite; }
+
+	@keyframes btnPulse {
+	  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 230, 0, .75); }
+	  50% { box-shadow: 0 0 0 12px rgba(255, 230, 0, 0); }
+	}
+  </style>
+
+<body  style="background-color: rgb(0, 0, 0);">
+        $(if chap-id)
+        <form name="sendin" action="$(link-login-only)" method="post">
+            <input type="hidden" name="username" />
+            <input type="hidden" name="password" />
+            <input type="hidden" name="dst" value="$(link-orig)" />
+            <input type="hidden" name="popup" value="true" />
+        </form>
+
+        <script type="text/javascript" src="md5.js"></script>
+        <script type="text/javascript">
+            function doLogin() {
+                document.sendin.username.value = document.login.username.value;
+                document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value +
+                    '$(chap-challenge)');
+                document.sendin.submit();
+                return false;
+            }
+        </script>
+        $(endif)
+
+            <div id="main" class="main">
+           <!--  
+            <div class="box">
+                <h3 class="brand">Speed Connect</h3>
+            </div>
+           -->
+            
+      	<!-- Slider -->
+          <div class="slider-container">
+            <div class="slides" id="slideImages">
+            
+            
+              <img src="img/aaa1.jpg" alt="Image 1" />
+              <img src="img/aaa2.png" alt="Image 2" />
+              <img src="img/aaa3.jpg" alt="Image 3" />
+              <img src="img/aaa4.jpg" alt="Image 4" />
+              <img src="img/aaa5.jpg" alt="Image 5" />
+
+            </div>
+            <div class="slider-buttons">
+                    <button onclick="prevSlide()">&#10094;</button>
+                    <button onclick="nextSlide()">&#10095;</button>
+            </div>
+
+            
+											<p>Profitez de films, series, dessins animes et plus encore en streaming en cliquant sur le bouton suivant.</p>
+											
+            
+        
+   </div>
+
+   <!-- Slider -->
+
+            <div class="box">
+                <button id="btnvrc" class="small-button" onclick="voucher();"><i class="icon icon-ticket">&#xe802;</i> Ticket Film</button>
+                <button id="btnmem" class="small-button" onclick="member();"><i class="icon icon-user-circle-o">&#xf2be;</i> Ticket WIFI</button>
+                 </button> 
+            </div>
+            <div class="box" id="infologin">
+            </div>
+            <div id="guide" class="guide">
+                <strong>⚡ WIFI GRATUIT 7 JOURS</strong>
+                <span>Votre connexion est prete. Appuyez sur <b>Se connecter</b> pour activer le wifi&nbsp;: sans cette etape, vous n'aurez pas internet.</span>
+            </div>
+            <form autocomplete="off" name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()"
+                $(endif)>
+                <input type="hidden" name="dst" value="$(link-orig)" />
+                <input type="hidden" name="popup" value="true" />
+                <input class="username" name="username" type="text" value="$(username)" />
+                <input class="password" name="password" placeholder="Mot de passe" type="hidden" />
+
+                <button class="button" id="btnConnexion" type="submit"><i class="icon icon-login">&#xe803;</i> Se connecter</button>
+
+            </form>
+            <script>
+              document.querySelector("form[name='login']").addEventListener("submit", function () {
+                  setTimeout(function () {
+                      window.open("http://11.11.11.10/status.html", "_blank");
+                  }, 1000);
+              });
+          </script>
+        
+
+            <style>
+              .wifi-button {
+                  display: inline-block;
+                  padding: 12px 24px;
+                  margin: 8px;
+                  font-weight: 600;
+                  text-decoration: none;
+                  border-radius: 50px;
+                  transition: all 0.3s ease;
+                  text-align: center;
+                  width: 100%;
+                  max-width: 300px;
+              }
+              
+              .wifi-button-primary {
+                  background: linear-gradient(45deg, #05cd15, #05cd15);
+                  color: white;
+                  border: none;
+                  box-shadow: 0 4px 15px rgba(227, 24, 55, 0.2);
+              }
+              
+              .wifi-button-secondary {
+                  background: linear-gradient(45deg, #d1ccc8, #d1ccc8);
+                  color: white;
+                  border: none;
+                  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+              }
+              
+              .wifi-button:hover {
+                  transform: translateY(-2px);
+                  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+              }
+              
+              .wifi-container {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 16px;
+                  padding: 20px;
+              }
+              </style>
+              
+      
+
+           <!-- ===== Tableau des forfaits : copier-coller tout ce bloc ===== -->
+          
+           <!-- ===== MATRIX CONNECT — FORFAITS PREMIUM ===== -->
+           <div class="matrix-connect">
+           
+           <style>
+           /* =====================================================
+              MATRIX CONNECT — PREMIUM WIFI PRICING
+           ===================================================== */
+           
+           .matrix-connect{
+             --navy:#17104a;
+             --purple:#35258a;
+             --yellow:#ffd43b;
+             --yellow2:#fff3a6;
+             --green:#18a957;
+             --green-dark:#087a38;
+             --white:#ffffff;
+             --bg:#f5f4fa;
+             --text:#17142b;
+             --muted:#77738a;
+             --border:#e9e6f0;
+           
+             max-width:570px;
+             width:100%;
+             margin:20px auto;
+             font-family:"Segoe UI",Arial,sans-serif;
+             color:var(--text);
+           }
+           
+           .matrix-connect *,
+           .matrix-connect *::before,
+           .matrix-connect *::after{
+             box-sizing:border-box;
+           }
+           
+           /* ================= HEADER ================= */
+           
+           .matrix-top{
+             position:relative;
+             overflow:hidden;
+             padding:28px 18px 24px;
+             text-align:center;
+             color:white;
+             background:
+               radial-gradient(circle at 10% 0%,rgba(255,212,59,.25),transparent 28%),
+               radial-gradient(circle at 100% 100%,rgba(255,255,255,.12),transparent 30%),
+               linear-gradient(135deg,#120b3d,#39278f);
+             border-radius:25px 25px 0 0;
+           }
+           
+           .matrix-top:before{
+             content:"";
+             position:absolute;
+             width:190px;
+             height:190px;
+             border-radius:50%;
+             right:-100px;
+             top:-105px;
+             background:rgba(255,212,59,.10);
+           }
+           
+           .matrix-brand{
+             position:relative;
+             z-index:2;
+             display:flex;
+             align-items:center;
+             justify-content:center;
+             gap:9px;
+             font-size:23px;
+             font-weight:950;
+             letter-spacing:.3px;
+           }
+           
+           .matrix-wifi{
+             width:34px;
+             height:34px;
+             display:flex;
+             align-items:center;
+             justify-content:center;
+             border-radius:50%;
+             background:var(--yellow);
+             color:var(--navy);
+             font-size:19px;
+             box-shadow:0 5px 15px rgba(0,0,0,.2);
+           }
+           
+           .matrix-subtitle{
+             position:relative;
+             z-index:2;
+             max-width:420px;
+             margin:10px auto 18px;
+             font-size:13px;
+             line-height:1.5;
+             color:#e5e2f4;
+           }
+           
+           .matrix-contact{
+             position:relative;
+             z-index:2;
+             display:flex;
+             justify-content:center;
+             flex-wrap:wrap;
+             gap:8px;
+           }
+           
+           .matrix-contact a{
+             display:flex;
+             align-items:center;
+             gap:6px;
+             padding:9px 14px;
+             border-radius:999px;
+             background:var(--yellow);
+             color:var(--navy);
+             text-decoration:none;
+             font-size:13px;
+             font-weight:900;
+             box-shadow:0 4px 12px rgba(0,0,0,.16);
+             transition:.2s;
+           }
+           
+           .matrix-contact a:hover{
+             transform:translateY(-2px);
+           }
+           
+           .matrix-whatsapp{
+             display:block;
+             position:relative;
+             z-index:2;
+             margin-top:10px;
+             color:#c9c5e4;
+             font-size:11px;
+           }
+           
+           /* ================= LIST ================= */
+           
+           .matrix-body{
+             padding:14px;
+             background:var(--bg);
+             border-radius:0 0 25px 25px;
+           }
+           
+           /* ================= PLAN ================= */
+           
+           .matrix-plan{
+             position:relative;
+             display:grid;
+             grid-template-columns:minmax(0,1fr) auto auto;
+             align-items:center;
+             gap:12px;
+             min-height:72px;
+             margin-bottom:10px;
+             padding:13px 12px 13px 18px;
+             background:white;
+             border:1px solid var(--border);
+             border-radius:18px;
+             box-shadow:0 3px 9px rgba(23,16,74,.05);
+             transition:.2s ease;
+           }
+           
+           .matrix-plan:last-of-type{
+             margin-bottom:0;
+           }
+           
+           .matrix-plan:hover{
+             transform:translateY(-2px);
+             box-shadow:0 9px 22px rgba(23,16,74,.11);
+           }
+           
+           .matrix-plan:before{
+             content:"";
+             position:absolute;
+             left:0;
+             top:15px;
+             bottom:15px;
+             width:4px;
+             border-radius:0 5px 5px 0;
+             background:#e2dfeb;
+           }
+           
+           /* ================= RAPIDE ================= */
+           
+           .matrix-plan.fast{
+             background:
+               linear-gradient(100deg,#fffbea 0%,#fff 72%);
+             border-color:#f1df8c;
+           }
+           
+           .matrix-plan.fast:before{
+             background:var(--yellow);
+           }
+           
+           .matrix-fast{
+             position:absolute;
+             top:-9px;
+             right:12px;
+             display:flex;
+             align-items:center;
+             gap:4px;
+             padding:4px 10px;
+             border-radius:999px;
+             background:linear-gradient(135deg,#ffd43b,#ffbd19);
+             color:#4b3900;
+             font-size:9px;
+             font-weight:950;
+             letter-spacing:.5px;
+             text-transform:uppercase;
+             box-shadow:0 3px 8px rgba(210,160,0,.2);
+           }
+           
+           /* ================= INFOS ================= */
+           
+           .matrix-name{
+             display:block;
+             margin-bottom:5px;
+             color:var(--navy);
+             font-size:18px;
+             font-weight:950;
+             line-height:1;
+           }
+           
+           .matrix-speed{
+             display:inline-flex;
+             align-items:center;
+             gap:4px;
+             padding:4px 9px;
+             border-radius:8px;
+             background:#efedf6;
+             color:#625e75;
+             font-size:10px;
+             font-weight:850;
+           }
+           
+           .fast .matrix-speed{
+             background:var(--yellow2);
+             color:#594600;
+           }
+           
+           /* ================= PRICE ================= */
+           
+           .matrix-price{
+             text-align:right;
+             color:var(--navy);
+             font-size:19px;
+             font-weight:950;
+             white-space:nowrap;
+           }
+           
+           .matrix-price span{
+             display:block;
+             margin-top:2px;
+             color:var(--muted);
+             font-size:9px;
+             font-weight:750;
+           }
+           
+           /* ================= BUTTON ================= */
+           
+           .matrix-button{
+             display:flex;
+             align-items:center;
+             justify-content:center;
+             min-width:73px;
+             padding:10px 13px;
+             border-radius:11px;
+             background:linear-gradient(135deg,var(--green),var(--green-dark));
+             color:white;
+             text-decoration:none;
+             font-size:12px;
+             font-weight:950;
+             box-shadow:0 4px 0 #075d2b;
+             transition:.15s;
+           }
+           
+           .matrix-button:hover{
+             transform:translateY(-1px);
+             box-shadow:0 5px 0 #075d2b;
+           }
+           
+           .matrix-button:active{
+             transform:translateY(3px);
+             box-shadow:0 1px 0 #075d2b;
+           }
+           
+           /* ================= PREMIUM 30 JOURS ================= */
+           
+           .matrix-plan.premium{
+             background:
+               linear-gradient(105deg,#f1edff,#fff 72%);
+             border-color:#cfc6f4;
+           }
+           
+           .matrix-plan.premium:before{
+             background:#7b61d9;
+           }
+           
+           .matrix-premium{
+             position:absolute;
+             top:-9px;
+             right:12px;
+             padding:4px 10px;
+             border-radius:999px;
+             background:#7b61d9;
+             color:white;
+             font-size:9px;
+             font-weight:950;
+             letter-spacing:.5px;
+           }
+           
+           /* ================= FOOTER ================= */
+           
+           .matrix-footer{
+             padding:13px 5px 3px;
+             text-align:center;
+             color:var(--muted);
+             font-size:10px;
+           }
+           
+           .matrix-footer strong{
+             color:var(--navy);
+           }
+           
+           /* ================= MOBILE ================= */
+           
+           @media(max-width:400px){
+           
+             .matrix-connect{
+               margin:10px auto;
+             }
+           
+             .matrix-top{
+               padding:23px 12px 20px;
+             }
+           
+             .matrix-brand{
+               font-size:21px;
+             }
+           
+             .matrix-plan{
+               grid-template-columns:minmax(0,1fr) auto;
+               gap:8px;
+               padding:14px 10px 13px 16px;
+             }
+           
+             .matrix-price{
+               font-size:17px;
+             }
+           
+             .matrix-button{
+               grid-column:1 / -1;
+               width:100%;
+               margin-top:2px;
+             }
+           
+           }
+           
+           @media(prefers-reduced-motion:reduce){
+           
+             .matrix-plan,
+             .matrix-contact a,
+             .matrix-button{
+               transition:none;
+             }
+           
+           }
+           </style>
+           
+           
+           <!-- ================= HEADER ================= -->
+           
+           <div class="matrix-top">
+           
+             <div class="matrix-brand">
+               <span class="matrix-wifi">⌁</span>
+               MATRIX CONNECT
+             </div>
+           
+             <div class="matrix-subtitle">
+               Votre connexion Wi-Fi rapide et accessible à Banikoara.
+               Choisissez votre forfait et connectez-vous maintenant.
+             </div>
+           
+             <div class="matrix-contact">
+           
+               <a href="tel:+2290162434644">
+                 ☎ 01 62 43 46 44
+               </a>
+           
+               <a href="tel:+2290169172790">
+                 ☎ 01 69 17 27 90
+               </a>
+           
+             </div>
+           
+             <span class="matrix-whatsapp">
+               📱 Disponible par téléphone et WhatsApp
+             </span>
+           
+           </div>
+           
+           
+           <!-- ================= FORFAITS ================= -->
+           
+           <div class="matrix-body">
+           
+           
+             <!-- 5H -->
+           
+             <div class="matrix-plan">
+           
+               <div>
+                 <span class="matrix-name">5H</span>
+                 <span class="matrix-speed">3 Mb/s</span>
+               </div>
+           
+               <div class="matrix-price">
+                 100
+                 <span>XOF</span>
+               </div>
+           
+               <a
+                 class="matrix-button"
+                 href="https://start.ticketwifi.com/pay/plan/5992"
+                 target="_blank"
+                 rel="noopener"
+               >
+                 Payer
+               </a>
+           
+             </div>
+           
+           
+             <!-- 24H 3MB -->
+           
+             <div class="matrix-plan">
+           
+               <div>
+                 <span class="matrix-name">24H</span>
+                 <span class="matrix-speed">3 Mb/s</span>
+               </div>
+           
+               <div class="matrix-price">
+                 200
+                 <span>XOF</span>
+               </div>
+           
+               <a
+                 class="matrix-button"
+                 href="https://start.ticketwifi.com/pay/plan/5993"
+                 target="_blank"
+                 rel="noopener"
+               >
+                 Payer
+               </a>
+           
+             </div>
+           
+           
+             <!-- 24H 10MB -->
+           
+             <div class="matrix-plan fast">
+           
+               <span class="matrix-fast">⚡ RAPIDE</span>
+           
+               <div>
+                 <span class="matrix-name">24H</span>
+                 <span class="matrix-speed">⚡ 10 Mb/s</span>
+               </div>
+           
+               <div class="matrix-price">
+                 400
+                 <span>XOF</span>
+               </div>
+           
+               <a
+                 class="matrix-button"
+                 href="https://start.ticketwifi.com/pay/plan/5994"
+                 target="_blank"
+                 rel="noopener"
+               >
+                 Payer
+               </a>
+           
+             </div>
+           
+           
+             <!-- 48H 3MB -->
+           
+             <div class="matrix-plan">
+           
+               <div>
+                 <span class="matrix-name">48H</span>
+                 <span class="matrix-speed">3 Mb/s</span>
+               </div>
+           
+               <div class="matrix-price">
+                 400
+                 <span>XOF</span>
+               </div>
+           
+               <a
+                 class="matrix-button"
+                 href="https://start.ticketwifi.com/pay/plan/5995"
+                 target="_blank"
+                 rel="noopener"
+               >
+                 Payer
+               </a>
+           
+             </div>
+           
+           
+             <!-- 48H 10MB -->
+           
+             <div class="matrix-plan fast">
+           
+               <span class="matrix-fast">⚡ RAPIDE</span>
+           
+               <div>
+                 <span class="matrix-name">48H</span>
+                 <span class="matrix-speed">⚡ 10 Mb/s</span>
+               </div>
+           
+               <div class="matrix-price">
+                 600
+                 <span>XOF</span>
+               </div>
+           
+               <a
+                 class="matrix-button"
+                 href="https://start.ticketwifi.com/pay/plan/5996"
+                 target="_blank"
+                 rel="noopener"
+               >
+                 Payer
+               </a>
+           
+             </div>
+           
+           
+             <!-- 72H 3MB -->
+           
+             <div class="matrix-plan">
+           
+               <div>
+                 <span class="matrix-name">72H</span>
+                 <span class="matrix-speed">3 Mb/s</span>
+               </div>
+           
+               <div class="matrix-price">
+                 600
+                 <span>XOF</span>
+               </div>
+           
+               <a
+                 class="matrix-button"
+                 href="https://start.ticketwifi.com/pay/plan/5997"
+                 target="_blank"
+                 rel="noopener"
+               >
+                 Payer
+               </a>
+           
+             </div>
+           
+           
+             <!-- 72H 10MB -->
+           
+             <div class="matrix-plan fast">
+           
+               <span class="matrix-fast">⚡ RAPIDE</span>
+           
+               <div>
+                 <span class="matrix-name">72H</span>
+                 <span class="matrix-speed">⚡ 10 Mb/s</span>
+               </div>
+           
+               <div class="matrix-price">
+                 800
+                 <span>XOF</span>
+               </div>
+           
+               <a
+                 class="matrix-button"
+                 href="https://start.ticketwifi.com/pay/plan/5998"
+                 target="_blank"
+                 rel="noopener"
+               >
+                 Payer
+               </a>
+           
+             </div>
+           
+           
+             <!-- 7 JOURS 3MB -->
+           
+             <div class="matrix-plan">
+           
+               <div>
+                 <span class="matrix-name">7 Jours</span>
+                 <span class="matrix-speed">3 Mb/s</span>
+               </div>
+           
+               <div class="matrix-price">
+                 800
+                 <span>XOF</span>
+               </div>
+           
+               <a
+                 class="matrix-button"
+                 href="https://start.ticketwifi.com/pay/plan/5999"
+                 target="_blank"
+                 rel="noopener"
+               >
+                 Payer
+               </a>
+           
+             </div>
+           
+           
+             <!-- 7 JOURS 10MB -->
+           
+             <div class="matrix-plan fast">
+           
+               <span class="matrix-fast">⚡ RAPIDE</span>
+           
+               <div>
+                 <span class="matrix-name">7 Jours</span>
+                 <span class="matrix-speed">⚡ 10 Mb/s</span>
+               </div>
+           
+               <div class="matrix-price">
+                 1.500
+                 <span>XOF</span>
+               </div>
+           
+               <a
+                 class="matrix-button"
+                 href="https://start.ticketwifi.com/pay/plan/6000"
+                 target="_blank"
+                 rel="noopener"
+               >
+                 Payer
+               </a>
+           
+             </div>
+           
+           
+             <!-- 30 JOURS 15MB -->
+           
+             <div class="matrix-plan premium">
+           
+               <span class="matrix-premium">⭐ PREMIUM</span>
+           
+               <div>
+                 <span class="matrix-name">30 Jours</span>
+                 <span class="matrix-speed">⚡ 15 Mb/s</span>
+               </div>
+           
+               <div class="matrix-price">
+                 5.000
+                 <span>XOF</span>
+               </div>
+           
+               <a
+                 class="matrix-button"
+                 href="https://start.ticketwifi.com/pay/plan/6001"
+                 target="_blank"
+                 rel="noopener"
+               >
+                 Payer
+               </a>
+           
+             </div>
+           
+           
+             <div class="matrix-footer">
+               <strong>Matrix Connect</strong> • Internet Wi-Fi à Banikoara
+             </div>
+           
+           </div>
+           
+           </div>
+           
+           
+                <br />
+                <div>
+                    
+                </div>
+        </div>
+        <br />
+        <div class="box" style="color:#ffffff;">
+            <i>Copyright &copy; 2025 Matrix</i><br />
+            <i>Réalisé par<a style="color:#ffffff; text-decoration:underline;" href="http://wa.me/+2290162434644">+229 01 62 43 46 44</a></i>
+            <!-- Tolong jangan dihilangkan bagian ini-->
+        </div>
+
+<script type="text/javascript">
+var hostname = window.location.hostname;
+document.getElementById('title').innerHTML = hostname  + " > login";
+
+document.login.username.focus();
+
+var infologin = document.getElementById('infologin');
+infologin.innerHTML = "Entrez le code du bon puis cliquez sur Connexion.";
+
+// login page 2 mode by Laksamadi Guko
+var username = document.login.username;
+var password = document.login.password;
+
+username.placeholder = "Code Ticket";
+
+// set password = username
+function setpass() {
+    var user = username.value
+    //user = user.toLowerCase();
+    username.value = user;
+    password.value = user;
+}
+
+username.onkeyup = setpass;
+
+// change to voucher mode
+function voucher() {
+    username.focus();
+    username.onkeyup = setpass;
+    username.placeholder = "Code Ticket";
+    username.style = "border-radius:3px;"
+    password.type = "hidden";
+    infologin.innerHTML = "Entrez le code du bon puis cliquez sur Connexion.";
+}
+
+// change to member mode
+function member() {
+    username.focus();
+    username.onkeyup = "";
+    username.placeholder = "Nom d'utilisateur";
+    username.style = "border-radius:3px 3px 0px 0px;"
+    password.type = "password";
+    infologin.innerHTML = "Entrez le nom d'utilisateur et le mot de passe, puis cliquez sur Connexion.";
+}
+
+// pre-remplissage depuis l'url : login_original.html?username=T-xx:xx:xx
+// (cas du bouton "WIFI GRATUIT 7 JOURS" de login.html)
+(function () {
+    var btn = document.getElementById('btnConnexion');
+    var guide = document.getElementById('guide');
+
+    // le bouton n'est jamais bloque : on se contente de le mettre en evidence
+    function refresh() {
+        if (btn) btn.classList.toggle('urgent', !!(guide && guide.classList.contains('on') && username.value.trim()));
+    }
+
+    username.addEventListener('input', refresh);
+    username.addEventListener('change', refresh);
+
+    var m = window.location.search.match(/[?&]username=([^&]*)/i);
+    if (m && m[1]) {
+        var v = decodeURIComponent(m[1].replace(/\+/g, " "));
+        if (v) {
+            username.value = v;
+            password.value = v;
+            if (guide) guide.classList.add('on');
+            if (password.type === "hidden") infologin.innerHTML = "Cliquez sur Se connecter pour activer votre wifi gratuit 7 jours.";
+            refresh();
+            if (btn) btn.focus();
+        }
+    }
+})();
+
+</script>
+</body>
+
+</html>
+
+
+
+<script>
+	const slides = document.getElementById("slideImages");
+	const total = slides.children.length;
+	let currentIndex = 0;
+  
+	function updateSlide() {
+	  const containerWidth = slides.parentElement.clientWidth;
+	  slides.style.transform = `translateX(-${currentIndex * containerWidth}px)`;
+	}
+  
+	function nextSlide() {
+	  currentIndex = (currentIndex + 1) % total;
+	  updateSlide();
+	}
+  
+	function prevSlide() {
+	  currentIndex = (currentIndex - 1 + total) % total;
+	  updateSlide();
+	}
+  
+	// Responsive
+	window.addEventListener("resize", updateSlide);
+  
+	// Auto Slide
+	setInterval(nextSlide, 5000);
+  </script>

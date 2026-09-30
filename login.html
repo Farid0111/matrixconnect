@@ -756,25 +756,15 @@
         <div class="notice">$(error)</div>
         $(endif)
 
-        <!-- connexion wifi gratuit : POST simple vers le routeur. C'est lui qui
-             repond avec alogin.html, ou le formulaire est integre. -->
-        <form name="sendin" action="$(link-login-only)" method="post">
-          <input type="hidden" name="username" />
-          <input type="hidden" name="password" />
-          <input type="hidden" name="dst" value="$(link-orig-esc)" />
-          <input type="hidden" name="popup" value="false" />
-        </form>
-
+        <!-- Connexion wifi gratuit : on passe par le formulaire de login_original.html,
+             qui gere deja le CHAP et la soumission (c'est le meme chemin que le login
+             par ticket, donc le meme fonctionnement prouve). L'identifiant est
+             pre-rempli, le client clique simplement "Se connecter". -->
         $(if trial == 'yes')
-        <form name="free" action="$(link-login-only)" method="post">
-          <input type="hidden" name="username" value="T-$(mac)" />
-          <input type="hidden" name="password" value="T-$(mac)" />
-          <input type="hidden" name="dst" value="$(link-orig-esc)" />
-          <input type="hidden" name="popup" value="false" />
-          <button class="btn btn-free" type="submit">
-            <i class="icon icon-login">&#xe803;</i> WIFI GRATUIT 7 JOURS
-          </button>
-        </form>
+        <a class="btn btn-free" id="btnFree"
+           href="login_original.html?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)">
+          <i class="icon icon-login">&#xe803;</i> WIFI GRATUIT 7 JOURS
+        </a>
         $(endif)
 
         <a class="btn btn-pay" href="login_original.html" target="_blank">Payer mon ticket par mobile money</a>
@@ -795,28 +785,11 @@
 
 
 
-<script src="md5.js"></script>
 <script>
-// Bouton wifi gratuit : un POST vers le routeur, rien d'autre.
-// Si le serveur utilise CHAP, le mot de passe est hache avant l'envoi.
-// Le routeur repond avec alogin.html, qui affiche le formulaire.
-(function () {
-    var f = document.forms.free;
-    if (!f) return;
-
-    var chapId = "$(chap-id)";
-    var chapChallenge = "$(chap-challenge)";
-
-    f.addEventListener("submit", function (e) {
-        if (!chapId || typeof hexMD5 !== "function") return; // POST classique
-
-        e.preventDefault();
-        var s = document.forms.sendin;
-        s.username.value = f.username.value;
-        s.password.value = hexMD5(chapId + f.password.value + chapChallenge);
-        s.submit();
-    });
-})();
+// Le bouton wifi gratuit est un simple lien vers login_original.html avec
+// l'identifiant pre-rempli : la connexion passe par le meme formulaire que le
+// login par ticket, donc par un chemin deja fonctionne sur ce routeur.
+// L'utilisateur clique ensuite "Se connecter" (mot de passe rempli automatiquement).
 </script>
 
 <script>
